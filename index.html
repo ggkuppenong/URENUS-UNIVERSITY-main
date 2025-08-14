@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URENUS UNIVERSITY</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: 
+                linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                url("unii.png") 
+                no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* College Header Menu */
+        .college-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+            border-bottom: 3px solid #ffeb3b;
+        }
+
+        .college-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .college-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .college-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .college-menu li {
+            position: relative;
+        }
+
+        .college-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .college-menu a:hover {
+            background: rgba(255, 235, 59, 0.2);
+            color: #ffeb3b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 235, 59, 0.3);
+        }
+
+        .college-menu a.active {
+            background: linear-gradient(45deg, #ffeb3b, #fbc02d);
+            color: #1e3c72;
+            font-weight: 700;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .college-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .college-menu.active {
+                display: flex;
+            }
+
+            .college-menu li {
+                margin: 5px 0;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .college-logo {
+                font-size: 1.4rem;
+            }
+        }
+        
+        .container {
+            max-width: 2650px;
+            margin: 0 auto;
+            padding: 20px 30px;
+        }
+
+        .music-player {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 300px;
+        }
+
+        .play-pause-btn {
+            background: linear-gradient(45deg, #ff4081, #ff1744);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-pause-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .volume-icon {
+            color: #fff;
+            font-size: 16px;
+            width: 20px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 5px;
+            border-radius: 5px;
+            background: #333;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ff4081;
+            cursor: pointer;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ff4081;
+            cursor: pointer;
+            border: none;
+        }
+
+        .now-playing {
+            color: #fff;
+            font-size: 12px;
+            opacity: 0.8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        .header {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .main-title {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #ffeb3b;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .content {
+            background: 
+                linear-gradient(rgba(99, 168, 224, 0.95), rgba(99, 168, 224, 0.95));
+            border-radius: 80px;
+            padding: 60px 80px;
+            margin: 20px 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(15px);
+            min-height: 1800    px;
+            max-width: 99%;
+            width: 100%;
+            color: #333;
+        }
+
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            color: #000000;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .welcome-text {
+            text-align: center;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #f5f5f5, #e3f2fd);
+            padding: 30px;
+            border-radius: 20px;
+            border-left: 5px solid #1976d2;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #1976d2;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .info-card h3 {
+            color: #1976d2;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .contact-item {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.3);
+        }
+
+        .contact-item h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .faculty-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid #1976d2;
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .faculty-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid #1976d2;
+        }
+
+        .news-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .news-item {
+            background: white;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff9800;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .news-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .news-date {
+            color: #ff9800;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, #2196f3, #1976d2);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            margin: 0 8px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .nav-button.active {
+            background: linear-gradient(45deg, #ff5722, #f44336);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .content {
+                margin: 20px 5px;
+                padding: 30px 25px;
+                max-width: 98%;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-button {
+                padding: 10px 15px;
+                font-size: 1rem;
+                margin: 5px 3px;
+                min-width: 80px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .music-player {
+                top: 70px;
+                right: 10px;
+                min-width: 250px;
+                padding: 10px 15px;
+            }
+
+            .play-pause-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="college-header">
+        <nav class="college-nav">
+            <div class="college-logo">
+                <span>🎓</span>
+                <span>URENUS UNIVERSITY</span>
+            </div>
+            <ul class="college-menu">
+                <li><a href="#" onclick="showCollegePage('about')" class="active">📖 เกี่ยวกับวิทยาลัย</a></li>
+                <li><a href="#" onclick="showCollegePage('faculties')">🏛️ คณะวิชา</a></li>
+                <li><a href="#" onclick="showCollegePage('admissions')">📝 การรับสมัคร</a></li>
+                <li><a href="#" onclick="showCollegePage('activities')">🎯 กิจกรรม</a></li>
+                <li><a href="#" onclick="showCollegePage('news')">📢 ข่าวสาร</a></li>
+                <li><a href="#" onclick="showCollegePage('contact')">📞 ติดต่อ</a></li>
+            </ul>
+            <button class="mobile-toggle" onclick="toggleMobileMenu()">☰</button>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">URENUS UNIVERSITY</h1>
+        </div>
+        <div class="content">
+            <div id="about" class="page-content active">
+                <h2 class="page-title">เกี่ยวกับวิทยาลัย</h2>
+                <div class="welcome-text">
+                    <p>🎓 WELCOME TO URENUS UNIVERSITY  </p>
+                    <p>สถาบันการศึกษาชั้นนำที่มุ่งเน้นการพัฒนาทักษะเทคโนโลยีและนวัตกรรม</p>
+                    <p>เพื่อเตรียมความพร้อมนักศึกษาสู่อนาคตที่เปลี่ยนแปลง</p>
+                    <audio controls>
+                    <source src="song/song1.mp3" type="audio/mpeg">
+                    </audio>
+                    <h2>วิดีโอแนะนำ URENUS UNIVERSITY</h2>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/SzE9U3kqyAg" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>🎯 วิสัยทัศน์</h3>
+                        <p>เป็นสถาบันการศึกษาชั้นนำในการผลิตบุคลากรด้านเทคโนโลยีที่มีคุณภาพ มีทักษะการคิดวิเคราะห์ และสามารถปรับตัวได้กับการเปลี่ยนแปลงของโลกยุคดิจิทัล</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🚀 พันธกิจ</h3>
+                        <p>จัดการเรียนการสอนที่เน้นการปฏิบัติจริง พัฒนานวัตกรรม ส่งเสริมการวิจัย และสร้างเครือข่ายความร่วมมือกับภาคอุตสาหกรรม</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>⭐ คุณค่า</h3>
+                        <p>มุ่งมั่นในความเป็นเลิศทางวิชาการ ส่งเสริมจริยธรรม สร้างสรรค์นวัตกรรม และรับผิดชอบต่อสังคม</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="faculties" class="page-content">
+                <h2 class="page-title">คณะวิชา</h2>
+                <div class="faculty-grid">
+                    <div class="faculty-card">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='60'>💻</text></svg>" alt="วิทยาการคอมพิวเตอร์">
+                        <h3>วิทยาการคอมพิวเตอร์</h3>
+                        <p>เรียนรู้การเขียนโปรแกรม, ระบบฐานข้อมูล, ปัญญาประดิษฐ์, และเทคโนโลยีใหม่ๆ</p>
+                    </div>
+                    <div class="faculty-card">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='60'>⚙️</text></svg>" alt="วิศวกรรม">
+                        <h3>วิศวกรรมเครื่องกล</h3>
+                        <p>ศึกษาการออกแบบ, การผลิต, ระบบอัตโนมัติ, และเทคโนโลยีการผลิตสมัยใหม่</p>
+                    </div>
+                    <div class="faculty-card">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='60'>🔌</text></svg>" alt="วิศวกรรมไฟฟ้า">
+                        <h3>วิศวกรรมไฟฟ้า</h3>
+                        <p>ระบบไฟฟ้า, อิเล็กทรอนิกส์, ระบบควบคุม, และพลังงานทดแทน</p>
+                    </div>
+                    <div class="faculty-card">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='60'>📊</text></svg>" alt="การจัดการธุรกิจ">
+                        <h3>การจัดการธุรกิจดิจิทัล</h3>
+                        <p>การตลาดดิจิทัล, อีคอมเมิร์ซ, การวิเคราะห์ข้อมูล, และนวัตกรรมธุรกิจ</p>
+                    </div>
+                    <div class="faculty-card">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='60'>🎨</text></svg>" alt="ดิจิทัลมีเดีย">
+                        <h3>ดิจิทัลมีเดียและการออกแบบ</h3>
+                        <p>กราฟิกดีไซน์, แอนิเมชัน, เกมดีไซน์, และผลิตสื่อดิจิทัล</p>
+                    </div>
+                    <div class="faculty-card">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='60'>🏗️</text></svg>" alt="สถาปัตยกรรม">
+                        <h3>สถาปัตยกรรม</h3>
+                        <p>การออกแบบอาคาร, การวางผังเมือง, เทคโนโลยีสีเขียว, และ BIM</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="admissions" class="page-content">
+                <h2 class="page-title">การรับสมัคร</h2>
+                <div class="welcome-text">
+                    <p>📝 ข้อมูลการรับสมัครนักศึกษาประจำปีการศึกษา 2568</p>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>📅 กำหนดการสมัคร</h3>
+                        <p><strong>รอบที่ 1:</strong> 1 ตุลาคม - 30 พฤศจิกายน 2567</p>
+                        <p><strong>รอบที่ 2:</strong> 1 ธันวาคม 2567 - 31 มกราคม 2568</p>
+                        <p><strong>รอบที่ 3:</strong> 1 กุมภาพันธ์ - 31 มีนาคม 2568</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🎯 คุณสมบัติผู้สมัคร</h3>
+                        <p>• สำเร็จการศึกษาระดับมัธยมศึกษาตอนปลาย หรือเทียบเท่า</p>
+                        <p>• มีผลการเรียนเฉลี่ย 2.50 ขึ้นไป</p>
+                        <p>• มีความสนใจในด้านเทคโนโลยี</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>📋 เอกสารประกอบการสมัคร</h3>
+                        <p>• ใบสมัคร</p>
+                        <p>• ใบรับรองผลการเรียน</p>
+                        <p>• รูปถ่าย 1 นิ้ว จำนวน 2 ใบ</p>
+                        <p>• สำเนาบัตรประชาชน</p>
+                        <p>• สำเนาทะเบียนบ้าน</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>💰 ค่าธรรมเนียม</h3>
+                        <p><strong>ค่าสมัคร:</strong> 500 บาท</p>
+                        <p><strong>ค่าเทอมเรียน:</strong> 25,000 - 35,000 บาท/เทอม</p>
+                        <p><strong>ทุนการศึกษา:</strong> มีทุนสำหรับนักศึกษาที่มีผลการเรียนดี</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="activities" class="page-content">
+                <h2 class="page-title">กิจกรรมนักศึกษา</h2>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>🏆 กิจกรรมทางวิชาการ</h3>
+                        <p>• แข่งขันเขียนโปรแกรม</p>
+                        <p>• โอลิมปิกวิชาการ</p>
+                        <p>• งานแสดงผลงานนักศึกษา</p>
+                        <p>• สัมมนาทางเทคโนโลยี</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🎪 กิจกรรมสันทนาการ</h3>
+                        <p>• งานวันสถาปนาวิทยาลัย</p>
+                        <p>• แข่งขันกีฬาสี</p>
+                        <p>• คอนเสิร์ตนักศึกษา</p>
+                        <p>• ค่ายอาสาพัฒนา</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>👥 ชมรมและสโมสร</h3>
+                        <p>• ชมรมเขียนโปรแกรม</p>
+                        <p>• สโมสรหุ่นยนต์</p>
+                        <p>• ชมรมถ่ายภาพ</p>
+                        <p>• สโมสรดนตรี</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🌱 กิจกรรมสร้างสรรค์</h3>
+                        <p>• โครงการพัฒนาชุมชน</p>
+                        <p>• การอนุรักษ์สิ่งแวดล้อม</p>
+                        <p>• โครงการสร้างนวัตกรรม</p>
+                        <p>• ค่ายเยาวชนเทคโนโลยี</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="news" class="page-content">
+                <h2 class="page-title">ข่าวสารและประกาศ</h2>
+                
+                <ul class="news-list">
+                    <li class="news-item">
+                        <div class="news-date">15 สิงหาคม 2568</div>
+                        <h4>🎓 ประกาศผลการสอบคัดเลือกนักศึกษาใหม่ รอบที่ 1</h4>
+                        <p>ขอแสดงความยินดีกับผู้ผ่านการคัดเลือกเข้าศึกษาต่อ สามารถตรวจสอบผลได้ที่เว็บไซต์ของวิทยาลัย</p>
+                    </li>
+                    <li class="news-item">
+                        <div class="news-date">10 สิงหาคม 2568</div>
+                        <h4>🏆 นักศึกษาคณะวิทยาการคอมพิวเตอร์คว้ารางวัลแข่งขัน Hackathon</h4>
+                        <p>ทีมนักศึกษาได้รับรางวัลชนะเลิศในการแข่งขัน National Tech Hackathon 2568</p>
+                    </li>
+                    <li class="news-item">
+                        <div class="news-date">8 สิงหาคม 2568</div>
+                        <h4>📚 เปิดรับสมัครทุนการศึกษาเพื่อความเป็นเลิศทางวิชาการ</h4>
+                        <p>ทุนการศึกษาสำหรับนักศึกษาที่มีผลการเรียนดีเด่น วงเงิน 50,000 บาทต่อปี</p>
+                    </li>
+                    <li class="news-item">
+                        <div class="news-date">5 สิงหาคม 2568</div>
+                        <h4>🔬 เปิดห้องปฏิบัติการ AI และ Machine Learning ใหม่</h4>
+                        <p>พร้อมอุปกรณ์ทันสมัยและเทคโนโลยีล้ำหน้าเพื่อการเรียนรู้ด้าน AI</p>
+                    </li>
+                    <li class="news-item">
+                        <div class="news-date">1 สิงหาคม 2568</div>
+                        <h4>🤝 ลงนามความร่วมมือกับบริษัทเทคโนโลยีชั้นนำ</h4>
+                        <p>เพื่อการฝึกงานและการจ้างงานของนักศึกษาจบใหม่</p>
+                    </li>
+                    <li class="news-item">
+                        <div class="news-date">25 กรกฎาคม 2568</div>
+                        <h4>🌟 จัดงาน Tech Innovation Day 2568</h4>
+                        <p>แสดงผลงานนวัตกรรมของนักศึกษาและอาจารย์ วันที่ 15-16 กันยายน 2568</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="contact" class="page-content">
+                <h2 class="page-title">ติดต่อเรา</h2>
+                
+                <div class="welcome-text">
+                    <p>📞 ติดต่อสอบถามข้อมูลเพิ่มเติม</p>
+                </div>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h4>📍 ที่อยู่</h4>
+                        <p>123 ถนนเทคโนโลยี<br>
+                        ตำบลนวัตกรรม อำเภอศึกษา<br>
+                        จังหวัดความรู้ 12345</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>📞 โทรศัพท์</h4>
+                        <p>สำนักงานอธิการบดี: 02-123-4567<br>
+                        ฝ่ายวิชาการ: 02-123-4568<br>
+                        ฝ่ายกิจการนักศึกษา: 02-123-4569</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>📧 อีเมล</h4>
+                        <p>info@techcollege.ac.th<br>
+                        admission@techcollege.ac.th<br>
+                        student@techcollege.ac.th</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>🌐 เว็บไซต์</h4>
+                        <p>www.techcollege.ac.th<br>
+                        Facebook: TechCollege<br>
+                        Line Official: @techcollege</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>🕒 เวลาทำการ</h4>
+                        <p>จันทร์ - ศุกร์: 8:00 - 17:00<br>
+                        เสาร์: 8:00 - 12:00<br>
+                        อาทิตย์: ปิดทำการ</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>🚌 การเดินทาง</h4>
+                        <p>รถเมล์สาย 25, 67, 89<br>
+                        BTS สถานีเทคโนโลยี<br>
+                        MRT สถานีนวัตกรรม</p>
+                    </div>
+                </div>
+
+                <div class="info-card" style="margin-top: 30px;">
+                    <h3>📅 วันเปิดชมวิทยาลัย</h3>
+                    <p>ทุกวันเสาร์ เวลา 09:00 - 15:00 น. สามารถเดินชมวิทยาลัย พบปะอาจารย์ และสอบถามข้อมูลการเรียนได้ฟรี<br>
+                    <strong>กรุณาติดต่อล่วงหน้า 3 วัน</strong></p>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        let isPlaying = false;
+        const audio = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+
+        function showCollegePage(pageId) {
+            const allPages = document.querySelectorAll('.page-content');
+            allPages.forEach(page => page.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            const allNavButtons = document.querySelectorAll('.nav-button');
+            allNavButtons.forEach(button => button.classList.remove('active'));
+            
+            const allMenuLinks = document.querySelectorAll('.college-menu a');
+            allMenuLinks.forEach(link => link.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            
+            const mobileMenu = document.querySelector('.college-menu');
+            mobileMenu.classList.remove('active');
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.college-menu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        audio.addEventListener('loadstart', function() {
+            console.log('Audio loading started');
+            document.getElementById('nowPlaying').textContent = 'Loading Music...';
+        });
+
+        audio.addEventListener('canplay', function() {
+            console.log('Audio can play');
+            document.getElementById('nowPlaying').textContent = 'Ready to Play';
+        });
+
+        audio.addEventListener('error', function(e) {
+            console.log('Audio error:', e);
+            document.getElementById('nowPlaying').textContent = 'Audio Error - Check URL';
+        });
+
+        audio.addEventListener('ended', function() {
+            isPlaying = false;
+            playPauseBtn.innerHTML = '▶️';
+            document.getElementById('nowPlaying').textContent = 'Music Ended';
+        });
+
+        document.querySelectorAll('.college-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const allMenuLinks = document.querySelectorAll('.college-menu a');
+                allMenuLinks.forEach(menuLink => menuLink.classList.remove('active'));
+                this.classList.add('active');
+                
+                const pageId = this.getAttribute('onclick').match(/'(\w+)'/)[1];
+                const allNavButtons = document.querySelectorAll('.nav-button');
+                allNavButtons.forEach(button => button.classList.remove('active'));
+                
+                const matchingNavButton = Array.from(allNavButtons).find(button => 
+                    button.getAttribute('onclick') && button.getAttribute('onclick').includes(pageId)
+                );
+                if (matchingNavButton) {
+                    matchingNavButton.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
